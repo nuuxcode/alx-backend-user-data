@@ -5,6 +5,8 @@ from flask import request
 
 
 class Auth:
+    """doc doc doc"""
+
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """doc doc doc"""
         return False
