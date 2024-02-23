@@ -1,10 +1,23 @@
 #!/usr/bin/env python3
 """ doc doc doc """
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response, abort
 from auth import Auth
 
 app = Flask(__name__)
 AUTH = Auth()
+
+
+@app.route("/sessions", methods=["POST"], strict_slashes=False)
+def login():
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    if AUTH.valid_login(email, password):
+        response = make_response(jsonify({"email": email, "message": "logged in"}), 200)
+        response.set_cookie("session_id", AUTH.create_session(email))
+        return response
+
+    abort(401)
 
 
 @app.route("/users", methods=["POST"])
