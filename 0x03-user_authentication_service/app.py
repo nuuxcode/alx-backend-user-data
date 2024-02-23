@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """ doc doc doc """
-from flask import Flask, jsonify, request, make_response, abort, Response
+from flask import Flask, jsonify, request, make_response, abort, Response, redirect
 from auth import Auth
 
 app = Flask(__name__)
@@ -38,6 +38,17 @@ def users() -> Response:
 def welcome() -> Response:
     """doc doc doc"""
     return jsonify({"message": "Bienvenue"})
+
+
+@app.route("/sessions", methods=["DELETE"], strict_slashes=False)
+def logout() -> Response:
+    """doc doc doc"""
+    session_id = request.cookies.get("session_id")
+    user = AUTH.get_user_from_session_id(session_id)
+    if user is None:
+        abort(403)
+    AUTH.destroy_session(user.id)
+    return redirect("/")
 
 
 if __name__ == "__main__":
