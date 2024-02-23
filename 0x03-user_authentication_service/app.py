@@ -9,6 +9,7 @@ AUTH = Auth()
 
 @app.route("/sessions", methods=["POST"], strict_slashes=False)
 def login():
+    """doc doc doc"""
     email = request.form.get("email")
     password = request.form.get("password")
 
