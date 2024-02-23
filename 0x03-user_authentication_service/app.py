@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ doc doc doc """
-from flask import Flask, jsonify, request, make_response, abort, Response, redirect
+from flask import Flask, jsonify, request, make_response
+from flask import abort, Response, redirect
 from auth import Auth
 
 app = Flask(__name__)
