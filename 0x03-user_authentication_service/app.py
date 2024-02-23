@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """ doc doc doc """
-from flask import Flask, jsonify, request, make_response, abort
+from flask import Flask, jsonify, request, make_response, abort, Response
 from auth import Auth
 
 app = Flask(__name__)
@@ -8,7 +8,7 @@ AUTH = Auth()
 
 
 @app.route("/sessions", methods=["POST"], strict_slashes=False)
-def login():
+def login() -> Response:
     """doc doc doc"""
     email = request.form.get("email")
     password = request.form.get("password")
@@ -22,7 +22,7 @@ def login():
 
 
 @app.route("/users", methods=["POST"])
-def users():
+def users() -> Response:
     """doc doc doc"""
     email = request.form["email"]
     password = request.form["password"]
@@ -34,7 +34,7 @@ def users():
 
 
 @app.route("/", methods=["GET"])
-def welcome():
+def welcome() -> Response:
     """doc doc doc"""
     return jsonify({"message": "Bienvenue"})
 
