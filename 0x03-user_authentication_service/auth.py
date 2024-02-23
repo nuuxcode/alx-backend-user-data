@@ -6,6 +6,7 @@ from user import User
 import bcrypt
 from sqlalchemy.orm.exc import NoResultFound
 import uuid
+from typing import TypeVar
 
 
 def _hash_password(password: str) -> bytes:
@@ -16,6 +17,9 @@ def _hash_password(password: str) -> bytes:
 def _generate_uuid() -> str:
     """doc doc doc"""
     return str(uuid.uuid4())
+
+
+UserT = TypeVar("UserT", bound=User)
 
 
 class Auth:
@@ -48,5 +52,15 @@ class Auth:
             session_id = _generate_uuid()
             self._db.update_user(user.id, session_id=session_id)
             return session_id
+        except NoResultFound:
+            return None
+
+    def get_user_from_session_id(self, session_id: str) -> UserT:
+        """doc doc doc"""
+        if session_id is None:
+            return None
+
+        try:
+            return self._db.find_user_by(session_id=session_id)
         except NoResultFound:
             return None
